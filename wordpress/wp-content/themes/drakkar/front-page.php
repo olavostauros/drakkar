@@ -16,7 +16,7 @@ get_header();
 <?php get_template_part('template-parts/hero-main'); ?>
 
 <!-- Statistics Section -->
-<?php get_template_part('template-parts/section-statistics'); ?>
+<?php get_template_part('template-parts/hero-statistics'); ?>
 
 <!-- Hero Expertise Section -->
 <?php get_template_part('template-parts/hero-expertise'); ?>

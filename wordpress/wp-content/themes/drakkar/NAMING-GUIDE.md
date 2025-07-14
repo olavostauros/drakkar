@@ -15,7 +15,7 @@ OLD NAME                    →  NEW NAME                    STATUS
 hero-zero.php              →  hero-main.php               ✅ RENAMED
 hero-agriculture.php        →  section-agriculture.php     ✅ RENAMED  
 hero-big-data.php          →  section-analytics.php       ✅ RENAMED
-statistics.php             →  section-statistics.php      ✅ RENAMED
+statistics.php             →  hero-statistics.php         ✅ RENAMED
 image-responsive.php       →  image-responsive.php        ✅ NO CHANGE
 ```
 
@@ -36,7 +36,7 @@ template-parts/
 ├── hero-main.php               # Main hero section (primary/first)
 ├── section-agriculture.php     # Agriculture content section
 ├── section-analytics.php       # Big data/analytics section  
-├── section-statistics.php      # Statistics section
+├── hero-statistics.php         # Statistics section
 └── image-responsive.php        # Responsive image component
 ```
 
@@ -87,7 +87,7 @@ get_template_part('template-parts/hero-agriculture');
 
 // NEW REFERENCES (UPDATED):
 get_template_part('template-parts/hero-main');
-get_template_part('template-parts/section-statistics');
+get_template_part('template-parts/hero-statistics');
 get_template_part('template-parts/section-analytics'); 
 get_template_part('template-parts/section-agriculture');
 ```
@@ -129,7 +129,7 @@ get_template_part('template-parts/hero-main');
 // Content sections
 get_template_part('template-parts/section-agriculture');
 get_template_part('template-parts/section-analytics');
-get_template_part('template-parts/section-statistics');
+get_template_part('template-parts/hero-statistics');
 
 // Reusable components
 get_template_part('template-parts/image-responsive');
@@ -178,7 +178,7 @@ wp-content/themes/drakkar/template-parts/
 ├── hero-main.php           # Primary hero section
 ├── section-agriculture.php # About/company section  
 ├── section-analytics.php   # Data visualization section
-├── section-statistics.php  # Metrics/achievements section
+├── hero-statistics.php     # Metrics/achievements section
 └── image-responsive.php    # Reusable image component
 ```
 

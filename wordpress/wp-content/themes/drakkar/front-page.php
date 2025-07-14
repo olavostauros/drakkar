@@ -18,6 +18,9 @@ get_header();
 <!-- Statistics Section -->
 <?php get_template_part('template-parts/section-statistics'); ?>
 
+<!-- Hero Expertise Section -->
+<?php get_template_part('template-parts/hero-expertise'); ?>
+
 <!-- Analytics Section -->
 <?php get_template_part('template-parts/section-analytics'); ?>
 

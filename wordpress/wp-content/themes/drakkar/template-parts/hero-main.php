@@ -14,7 +14,7 @@
 	<!-- Video Background -->
 	<div class="hero-video-container">
 		<video class="hero-video" autoplay muted loop playsinline preload="metadata">
-			<source src="<?php echo home_url('/wp-content/hero-media/hero-video.mp4'); ?>" type="video/mp4">
+			<source src="<?php echo drakkar_get_asset_url('videos/hero-video.mp4'); ?>" type="video/mp4">
 		</video>
 		<div class="hero-overlay"></div>
 	</div>

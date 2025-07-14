@@ -1,0 +1,12 @@
+{
+    "name": "olavostauros/drakkar",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "olavostauros"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

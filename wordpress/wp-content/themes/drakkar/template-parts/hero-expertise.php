@@ -1,4 +1,4 @@
-<?php
+c<?php
 
 /**
  * Hero<section class="hero-expertise"<?php if ($expertise_bg) : ?> style="background-image: url('<?php echo esc_url($expertise_bg); ?>');"<?php endif; ?>>Expertise Component

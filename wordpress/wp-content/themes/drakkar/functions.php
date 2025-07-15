@@ -65,27 +65,29 @@ add_action('after_setup_theme', 'drakkar_theme_setup');
  */
 function drakkar_scripts()
 {
+	$theme_version = wp_get_theme()->get('Version') ?: '1.0.0';
+	$template_uri = get_template_directory_uri();
+
 	// Enqueue theme stylesheet
-	wp_enqueue_style('drakkar-style', get_stylesheet_uri(), array(), '1.0.0');
+	wp_enqueue_style('drakkar-style', get_stylesheet_uri(), array(), $theme_version);
 
 	// Enqueue additional CSS files
-	wp_enqueue_style('drakkar-hero-main-css', get_template_directory_uri() . '/css/hero-zero.css', array('drakkar-style'), '1.0.0');
+	wp_enqueue_style('drakkar-hero-main-css', $template_uri . '/css/hero-zero.css', array('drakkar-style'), $theme_version);
 
 	// Enqueue theme JavaScript
-	wp_enqueue_script('drakkar-script', get_template_directory_uri() . '/js/main.js', array(), '1.0.0', true);
-	wp_enqueue_script('drakkar-hero-script', get_template_directory_uri() . '/js/hero-main.js', array('drakkar-script'), '1.0.0', true);
+	wp_enqueue_script('drakkar-script', $template_uri . '/js/main.js', array(), $theme_version, true);
+	wp_enqueue_script('drakkar-hero-script', $template_uri . '/js/hero-main.js', array('drakkar-script'), $theme_version, true);
 }
 add_action('wp_enqueue_scripts', 'drakkar_scripts');
 
 /**
  * Configure image quality
  */
-function drakkar_image_quality($quality, $mime_type) {
-	$custom_quality = drakkar_get_media_setting('image_quality', 85);
-	return $custom_quality;
+function drakkar_image_quality() {
+	return drakkar_get_media_setting('image_quality', 85);
 }
-add_filter('wp_editor_set_quality', 'drakkar_image_quality', 10, 2);
-add_filter('jpeg_quality', 'drakkar_image_quality', 10, 2);
+add_filter('wp_editor_set_quality', 'drakkar_image_quality');
+add_filter('jpeg_quality', 'drakkar_image_quality');
 
 /**
  * Add custom image sizes to media library
@@ -106,31 +108,39 @@ add_filter('image_size_names_choose', 'drakkar_custom_image_sizes');
  */
 function drakkar_get_logo()
 {
+	$alt_text = esc_attr(get_bloginfo('name')) . ' - Agricultura de Precisão';
+	$logo_class = 'custom-logo';
+
 	if (has_custom_logo()) {
 		$custom_logo_id = get_theme_mod('custom_logo');
 		$logo = wp_get_attachment_image_src($custom_logo_id, 'full');
 
 		if ($logo) {
-			return '<img src="' . esc_url($logo[0]) . '" alt="' . esc_attr(get_bloginfo('name')) . ' - Agricultura de Precisão" class="custom-logo" />';
-		}
-	} else {
-		// Try theme assets first
-		if (drakkar_theme_image_exists('logo-drakkar-full.svg')) {
-			return '<img src="' . esc_url(drakkar_get_image_url('logo-drakkar-full.svg')) . '" class="custom-logo" alt="' . esc_attr(get_bloginfo('name')) . ' - Agricultura de Precisão" />';
-		} elseif (drakkar_theme_image_exists('logo-drakkar-full.png')) {
-			return '<img src="' . esc_url(drakkar_get_image_url('logo-drakkar-full.png')) . '" class="custom-logo" alt="' . esc_attr(get_bloginfo('name')) . ' - Agricultura de Precisão" />';
-		}
-		
-		// Fallback to wp-content/logos directory (legacy)
-		$logo_svg = home_url('/wp-content/logos/logo-drakkar-full.svg');
-		$logo_png = home_url('/wp-content/logos/logo-drakkar-full.png');
-
-		if (file_exists(ABSPATH . 'wp-content/logos/logo-drakkar-full.svg')) {
-			return '<img src="' . esc_url($logo_svg) . '" class="custom-logo" alt="' . esc_attr(get_bloginfo('name')) . ' - Agricultura de Precisão" />';
-		} elseif (file_exists(ABSPATH . 'wp-content/logos/logo-drakkar-full.png')) {
-			return '<img src="' . esc_url($logo_png) . '" class="custom-logo" alt="' . esc_attr(get_bloginfo('name')) . ' - Agricultura de Precisão" />';
+			return sprintf('<img src="%s" alt="%s" class="%s" />', 
+				esc_url($logo[0]), $alt_text, $logo_class);
 		}
 	}
+
+	// Define logo filenames to check
+	$logo_files = array('logo-drakkar-full.svg', 'logo-drakkar-full.png');
+	
+	// Try theme assets first
+	foreach ($logo_files as $filename) {
+		if (drakkar_theme_image_exists($filename)) {
+			return sprintf('<img src="%s" class="%s" alt="%s" />', 
+				esc_url(drakkar_get_image_url($filename)), $logo_class, $alt_text);
+		}
+	}
+	
+	// Fallback to wp-content/logos directory (legacy)
+	foreach ($logo_files as $filename) {
+		$logo_path = ABSPATH . 'wp-content/logos/' . $filename;
+		if (file_exists($logo_path)) {
+			return sprintf('<img src="%s" class="%s" alt="%s" />', 
+				esc_url(home_url('/wp-content/logos/' . $filename)), $logo_class, $alt_text);
+		}
+	}
+
 	return false;
 }
 

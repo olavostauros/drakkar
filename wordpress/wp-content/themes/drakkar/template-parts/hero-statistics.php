@@ -1,35 +1,50 @@
 <?php
-
 /**
- * Statistics Section Component
- * 
+ * Statistics Section Component - REFACTORED v2.0
+ *
  * Key metrics section showcasing Drakkar's achievements and impact
  * Features animated counters displaying company statistics and success metrics
- * 
+ *
+ * Now uses the unified component system for better maintainability
+ *
  * @package Drakkar
+ * @version 2.0
  */
-?>
 
-<!-- Statistics Section -->
-<section class="hero-statistics">
-	<div class="stat-item animate-countUp" data-delay="0">
-		<div class="stat-number" data-target="1000000">+1M</div>
-		<div class="stat-label">Amostras coletadas</div>
-	</div>
-	<div class="stat-item animate-countUp" data-delay="200">
-		<div class="stat-number" data-target="1200">+1.200</div>
-		<div class="stat-label">Clientes ativos</div>
-	</div>
-	<div class="stat-item animate-countUp" data-delay="400">
-		<div class="stat-number" data-target="5000000">+5M</div>
-		<div class="stat-label">Hectares influenciados</div>
-	</div>
-	<div class="stat-item animate-countUp" data-delay="600">
-		<div class="stat-number" data-target="3700">+3.700</div>
-		<div class="stat-label">Fazendas atendidas</div>
-	</div>
-	<div class="stat-item animate-countUp" data-delay="800">
-		<div class="stat-number" data-target="1500000">+1,5M</div>
-		<div class="stat-label">Mapas gerados/ano</div>
-	</div>
-</section>
+// Statistics data configuration
+$statistics = [
+    [
+        'number' => '1000000',
+        'label' => 'Amostras coletadas',
+        'suffix' => '',
+        'delay' => 0
+    ],
+    [
+        'number' => '1200',
+        'label' => 'Clientes ativos',
+        'suffix' => '',
+        'delay' => 200
+    ],
+    [
+        'number' => '5000000',
+        'label' => 'Hectares influenciados',
+        'suffix' => '',
+        'delay' => 400
+    ],
+    [
+        'number' => '3700',
+        'label' => 'Fazendas atendidas',
+        'suffix' => '',
+        'delay' => 600
+    ],
+    [
+        'number' => '1500000',
+        'label' => 'Mapas gerados/ano',
+        'suffix' => '',
+        'delay' => 800
+    ]
+];
+
+// Output using the unified component system
+echo Drakkar_Components::statistics_section($statistics);
+?>

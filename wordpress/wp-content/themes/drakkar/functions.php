@@ -2,7 +2,7 @@
 
 /**
  * Drakkar Theme Functions
- * 
+ *
  * @package Drakkar
  */
 
@@ -14,6 +14,10 @@ if (!defined('ABSPATH')) {
 // Include additional theme files
 require_once get_template_directory() . '/inc/media-helpers.php';
 require_once get_template_directory() . '/inc/customizer-media.php';
+
+// Include new refactored classes
+require_once get_template_directory() . '/inc/new/class-drakkar-assets.php';
+require_once get_template_directory() . '/inc/new/class-drakkar-components.php';
 
 /**
  * Theme Setup
@@ -61,10 +65,15 @@ function drakkar_theme_setup()
 add_action('after_setup_theme', 'drakkar_theme_setup');
 
 /**
- * Enqueue scripts and styles
+ * Enqueue scripts and styles - REFACTORED v2.0
+ * Now handled by Drakkar_Assets class for better performance and organization
  */
 function drakkar_scripts()
 {
+	// Legacy asset loading - commented out in v2.0
+	// New asset management is handled by Drakkar_Assets class
+
+	/* OLD CODE:
 	$theme_version = wp_get_theme()->get('Version') ?: '1.0.0';
 	$template_uri = get_template_directory_uri();
 
@@ -77,7 +86,11 @@ function drakkar_scripts()
 	// Enqueue theme JavaScript
 	wp_enqueue_script('drakkar-script', $template_uri . '/js/main.js', array(), $theme_version, true);
 	wp_enqueue_script('drakkar-hero-script', $template_uri . '/js/hero-main.js', array('drakkar-script'), $theme_version, true);
+	*/
+
+	// Asset management is now handled by Drakkar_Assets::init() in class-drakkar-assets.php
 }
+// Keeping the hook for backward compatibility, but assets are managed by the new class
 add_action('wp_enqueue_scripts', 'drakkar_scripts');
 
 /**
@@ -116,27 +129,27 @@ function drakkar_get_logo()
 		$logo = wp_get_attachment_image_src($custom_logo_id, 'full');
 
 		if ($logo) {
-			return sprintf('<img src="%s" alt="%s" class="%s" />', 
+			return sprintf('<img src="%s" alt="%s" class="%s" />',
 				esc_url($logo[0]), $alt_text, $logo_class);
 		}
 	}
 
 	// Define logo filenames to check
 	$logo_files = array('logo-drakkar-full.svg', 'logo-drakkar-full.png');
-	
+
 	// Try theme assets first
 	foreach ($logo_files as $filename) {
 		if (drakkar_theme_image_exists($filename)) {
-			return sprintf('<img src="%s" class="%s" alt="%s" />', 
+			return sprintf('<img src="%s" class="%s" alt="%s" />',
 				esc_url(drakkar_get_image_url($filename)), $logo_class, $alt_text);
 		}
 	}
-	
+
 	// Fallback to wp-content/logos directory (legacy)
 	foreach ($logo_files as $filename) {
 		$logo_path = ABSPATH . 'wp-content/logos/' . $filename;
 		if (file_exists($logo_path)) {
-			return sprintf('<img src="%s" class="%s" alt="%s" />', 
+			return sprintf('<img src="%s" class="%s" alt="%s" />',
 				esc_url(home_url('/wp-content/logos/' . $filename)), $logo_class, $alt_text);
 		}
 	}

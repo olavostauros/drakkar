@@ -1,6 +1,9 @@
 # Ignore hero video file
 wordpress/wp-content/themes/drakkar/assets/videos/hero-video.mp4
 
+# Ignore drakkar theme assets folder
+wordpress/wp-content/themes/drakkar/assets/
+
 # Ignore WordPress debug log
 wordpress/wp-content/debug.log
 

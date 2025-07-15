@@ -1,0 +1,75 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start WordPress Dev Server",
+			"type": "shell",
+			"command": "php",
+			"args": [
+				"-S",
+				"localhost:8000",
+				"-t",
+				"wordpress"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				}
+			}
+		},
+		{
+			"label": "Composer Install",
+			"type": "shell",
+			"command": "composer",
+			"args": [
+				"install"
+			],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}/wordpress"
+			}
+		},
+		{
+			"label": "Composer Update",
+			"type": "shell",
+			"command": "composer",
+			"args": [
+				"update"
+			],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}/wordpress"
+			}
+		},
+		{
+			"label": "PHP Syntax Check",
+			"type": "shell",
+			"command": "find",
+			"args": [
+				"wordpress",
+				"-name",
+				"*.php",
+				"-exec",
+				"php",
+				"-l",
+				"{}",
+				"\\;"
+			],
+			"group": "test"
+		}
+	]
+}

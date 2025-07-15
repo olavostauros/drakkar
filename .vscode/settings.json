@@ -1,0 +1,68 @@
+{
+    "php.suggest.basic": false,
+    "php.validate.enable": true,
+    "php.validate.executablePath": "/usr/bin/php",
+    "files.associations": {
+        "*.php": "php"
+    },
+    "emmet.includeLanguages": {
+        "php": "html"
+    },
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/vendor": true,
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/uploads/**": true,
+        "**/cache/**": true,
+        "**/wp-content/uploads": true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/vendor": true,
+        "**/*.log": true,
+        "**/uploads": true,
+        "**/cache": true,
+        "**/wp-content/uploads": true
+    },
+    "files.watcherExclude": {
+        "**/node_modules/**": true,
+        "**/vendor/**": true,
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/uploads/**": true,
+        "**/cache/**": true,
+        "**/*.log": true
+    },
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "php.format.rules.arrayInitializersAlignKeyValuePairs": true,
+    "php.format.rules.groupUseList": true,
+    "intelephense.environment.includePaths": [
+        "wordpress/wp-includes",
+        "wordpress/wp-admin/includes"
+    ],
+    "intelephense.files.associations": [
+        "*.php",
+        "*.phtml"
+    ],
+    "intelephense.files.exclude": [
+        "**/node_modules/**",
+        "**/vendor/**",
+        "**/.git/**",
+        "**/.DS_Store"
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#2D3748",
+        "activityBar.foreground": "#E2E8F0"
+    }
+}

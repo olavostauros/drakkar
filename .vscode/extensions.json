@@ -1,0 +1,17 @@
+{
+	"recommendations": [
+		"bmewburn.vscode-intelephense-client",
+		"xdebug.php-debug",
+		"bradlc.vscode-tailwindcss",
+		"formulahendry.auto-rename-tag",
+		"formulahendry.auto-close-tag",
+		"esbenp.prettier-vscode",
+		"streetsidesoftware.code-spell-checker",
+		"ecmel.vscode-html-css",
+		"neilbrayfield.php-docblocker",
+		"rifi2k.format-html-in-php",
+		"wordpresstoolbox.wordpress-toolbox",
+		"johnbillion.vscode-wordpress-hooks",
+		"yogensia.searchwpdocs"
+	]
+}

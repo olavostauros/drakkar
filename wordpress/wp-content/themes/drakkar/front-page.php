@@ -2,7 +2,7 @@
 
 /**
  * Front Page Template
- * 
+ *
  * Template for the front page (homepage) of the Drakkar website
  * Features hero section and statistics as the main landing area
  *
@@ -20,6 +20,9 @@ get_header();
 
 <!-- Hero Expertise Section -->
 <?php get_template_part('template-parts/hero-expertise'); ?>
+
+<!-- Hero Big Data Section -->
+<?php get_template_part('template-parts/hero-big-data'); ?>
 
 <!-- Analytics Section -->
 <?php get_template_part('template-parts/section-analytics'); ?>

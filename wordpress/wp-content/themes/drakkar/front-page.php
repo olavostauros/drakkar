@@ -24,6 +24,9 @@ get_header();
 <!-- Hero Big Data Section -->
 <?php get_template_part('template-parts/hero-big-data'); ?>
 
+<!-- Hero Success History Section -->
+<?php get_template_part('template-parts/hero-success-history'); ?>
+
 <!-- Analytics Section -->
 <?php get_template_part('template-parts/section-analytics'); ?>
 

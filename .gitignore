@@ -3,3 +3,6 @@ wordpress/wp-content/themes/drakkar/assets/videos/hero-video.mp4
 
 # Ignore WordPress debug log
 wordpress/wp-content/debug.log
+
+# Ignore .github directory
+.github/

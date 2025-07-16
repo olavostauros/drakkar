@@ -14,7 +14,7 @@
 // Hero configuration for the component system
 $hero_config = [
     'type' => 'main',
-    'video' => drakkar_get_asset_url('videos/hero-video.mp4'),
+    'video' => 'https://res.cloudinary.com/dnlxvrf5u/video/upload/v1752262073/output_ff4s0w.mp4',
     'title' => 'Chegou a nova era da Agricultura de Precisão',
     'subtitle' => 'A tecnologia que coloca o controle da fertilidade do solo na palma da sua mão',
     'cta' => [
@@ -34,7 +34,7 @@ $hero_config = [
     <!-- Video Background -->
     <div class="hero-video-container">
         <video class="hero-video" autoplay muted loop playsinline preload="metadata">
-            <source src="<?php echo esc_url(drakkar_get_asset_url('videos/hero-video.mp4')); ?>" type="video/mp4">
+            <source src="https://res.cloudinary.com/dnlxvrf5u/video/upload/v1752262073/output_ff4s0w.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
     </div>

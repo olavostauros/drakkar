@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Drakkar Theme Functions
+ * Drakkar Theme Functions - Unified Architecture v3.0
  *
  * @package Drakkar
+ * @version 3.0.0
  */
 
 // Prevent direct access
@@ -11,233 +12,220 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-// Include additional theme files
-require_once get_template_directory() . '/inc/media-helpers.php';
-require_once get_template_directory() . '/inc/customizer-media.php';
-
-// Include new refactored classes
-require_once get_template_directory() . '/inc/new/class-drakkar-assets.php';
-require_once get_template_directory() . '/inc/new/class-drakkar-components.php';
+// Load unified theme system
+require_once get_template_directory() . '/inc/class-drakkar-theme.php';
 
 /**
- * Theme Setup
+ * Backward compatibility functions
+ *
+ * These functions maintain compatibility with existing template files
+ * while redirecting to the new unified system
  */
+
+// Theme setup (maintained for backward compatibility)
 function drakkar_theme_setup()
 {
-	// Add theme support
-	add_theme_support('title-tag');
-	add_theme_support('custom-logo', array(
-		'height'         => 100,
-		'width'          => 300,
-		'flex-height'    => true,
-		'flex-width'     => true,
-		'header-text'    => array('site-title', 'site-description'),
-		'unlink-homepage-logo' => false,
-	));
-	add_theme_support('menus');
-	add_theme_support('post-thumbnails');
-	add_theme_support('html5', array(
-		'search-form',
-		'comment-form',
-		'comment-list',
-		'gallery',
-		'caption',
-		'navigation-widgets',
-	));
-	add_theme_support('responsive-embeds');
-	add_theme_support('wp-block-styles');
-
-	// Add custom image sizes
-	add_image_size('drakkar-thumbnail', 150, 150, true);
-	add_image_size('drakkar-small', 300, 200, true);
-	add_image_size('drakkar-medium', 600, 400, true);
-	add_image_size('drakkar-large', 1200, 800, true);
-	add_image_size('drakkar-hero', 1920, 1080, true);
-
-	// Enable support for featured images
-	set_post_thumbnail_size(1200, 800, true);
-
-	// Register navigation menus
-	register_nav_menus(array(
-		'primary' => __('Primary Menu', 'drakkar'),
-	));
+	// Handled by unified theme system
 }
-add_action('after_setup_theme', 'drakkar_theme_setup');
 
-/**
- * Enqueue scripts and styles - REFACTORED v2.0
- * Now handled by Drakkar_Assets class for better performance and organization
- */
+// Scripts enqueue (maintained for backward compatibility)
 function drakkar_scripts()
 {
-	// Legacy asset loading - commented out in v2.0
-	// New asset management is handled by Drakkar_Assets class
-
-	/* OLD CODE:
-	$theme_version = wp_get_theme()->get('Version') ?: '1.0.0';
-	$template_uri = get_template_directory_uri();
-
-	// Enqueue theme stylesheet
-	wp_enqueue_style('drakkar-style', get_stylesheet_uri(), array(), $theme_version);
-
-	// Enqueue additional CSS files
-	wp_enqueue_style('drakkar-hero-main-css', $template_uri . '/css/hero-zero.css', array('drakkar-style'), $theme_version);
-
-	// Enqueue theme JavaScript
-	wp_enqueue_script('drakkar-script', $template_uri . '/js/main.js', array(), $theme_version, true);
-	wp_enqueue_script('drakkar-hero-script', $template_uri . '/js/hero-main.js', array('drakkar-script'), $theme_version, true);
-	*/
-
-	// Asset management is now handled by Drakkar_Assets::init() in class-drakkar-assets.php
+	// Handled by unified asset system
 }
-// Keeping the hook for backward compatibility, but assets are managed by the new class
-add_action('wp_enqueue_scripts', 'drakkar_scripts');
 
-/**
- * Configure image quality
- */
-function drakkar_image_quality() {
-	return drakkar_get_media_setting('image_quality', 85);
-}
-add_filter('wp_editor_set_quality', 'drakkar_image_quality');
-add_filter('jpeg_quality', 'drakkar_image_quality');
-
-/**
- * Add custom image sizes to media library
- */
-function drakkar_custom_image_sizes($sizes) {
-	return array_merge($sizes, array(
-		'drakkar-thumbnail' => __('Drakkar Thumbnail', 'drakkar'),
-		'drakkar-small' => __('Drakkar Small', 'drakkar'),
-		'drakkar-medium' => __('Drakkar Medium', 'drakkar'),
-		'drakkar-large' => __('Drakkar Large', 'drakkar'),
-		'drakkar-hero' => __('Drakkar Hero', 'drakkar'),
-	));
-}
-add_filter('image_size_names_choose', 'drakkar_custom_image_sizes');
-
-/**
- * Get custom logo or fallback
- */
+// Legacy helper functions (redirect to new system)
 function drakkar_get_logo()
 {
-	$alt_text = esc_attr(get_bloginfo('name')) . ' - Agricultura de Precisão';
-	$logo_class = 'custom-logo';
+	$media = drakkar_theme()->get_media();
+	return $media ? $media->get_logo() : false;
+}
 
-	if (has_custom_logo()) {
-		$custom_logo_id = get_theme_mod('custom_logo');
-		$logo = wp_get_attachment_image_src($custom_logo_id, 'full');
+function drakkar_get_image_url($filename)
+{
+	$media = drakkar_theme()->get_media();
+	return $media ? $media->get_image_url($filename) : '';
+}
 
-		if ($logo) {
-			return sprintf('<img src="%s" alt="%s" class="%s" />',
-				esc_url($logo[0]), $alt_text, $logo_class);
+function drakkar_get_asset_url($path)
+{
+	$media = drakkar_theme()->get_media();
+	return $media ? $media->get_asset_url($path) : '';
+}
+
+function drakkar_get_icon_url($filename)
+{
+	$media = drakkar_theme()->get_media();
+	return $media ? $media->get_icon_url($filename) : '';
+}
+
+function drakkar_get_responsive_image($attachment_id, $size = 'full', $attr = [])
+{
+	$media = drakkar_theme()->get_media();
+	return $media ? $media->get_responsive_image($attachment_id, $size, $attr) : '';
+}
+
+function drakkar_get_featured_image($post_id = null, $size = 'full', $fallback_image = null)
+{
+	$media = drakkar_theme()->get_media();
+	return $media ? $media->get_featured_image($post_id, $size, $fallback_image) : '';
+}
+
+function drakkar_theme_image_exists($filename)
+{
+	$media = drakkar_theme()->get_media();
+	return $media ? $media->theme_image_exists($filename) : false;
+}
+
+function drakkar_get_media_setting($setting, $default = '')
+{
+	return drakkar_theme()->get_option($setting, $default);
+}
+
+// Component helper functions
+function drakkar_hero_section($args = [])
+{
+	$components = drakkar_theme()->get_components();
+	return $components ? $components->hero_section($args) : '';
+}
+
+function drakkar_cta_button($args = [])
+{
+	$components = drakkar_theme()->get_components();
+	return $components ? $components->cta_button($args) : '';
+}
+
+function drakkar_statistics_section($statistics = [])
+{
+	$components = drakkar_theme()->get_components();
+	return $components ? $components->statistics_section($statistics) : '';
+}
+
+function drakkar_whatsapp_widget($args = [])
+{
+	$components = drakkar_theme()->get_components();
+	return $components ? $components->whatsapp_widget($args) : '';
+}
+
+function has_drakkar_component($component)
+{
+	$components = drakkar_theme()->get_components();
+	return $components ? $components->has_component($component) : false;
+}
+
+// Navigation helper functions
+function drakkar_primary_nav($args = [])
+{
+	$navigation = drakkar_theme()->get_navigation();
+	return $navigation ? $navigation->display_primary_nav($args) : '';
+}
+
+function drakkar_footer_nav($args = [])
+{
+	$navigation = drakkar_theme()->get_navigation();
+	return $navigation ? $navigation->display_footer_nav($args) : '';
+}
+
+function drakkar_social_nav($args = [])
+{
+	$navigation = drakkar_theme()->get_navigation();
+	return $navigation ? $navigation->display_social_nav($args) : '';
+}
+
+function drakkar_breadcrumbs($args = [])
+{
+	$navigation = drakkar_theme()->get_navigation();
+	if ($navigation) {
+		echo $navigation->display_breadcrumbs($args);
+	}
+}
+
+/**
+ * Template helper functions
+ */
+
+// Get theme option
+function drakkar_get_option($option, $default = '')
+{
+	return drakkar_theme()->get_option($option, $default);
+}
+
+// Check if we're on front page and display hero
+function drakkar_display_hero()
+{
+	if (is_front_page()) {
+		$components = drakkar_theme()->get_components();
+		if ($components) {
+			echo $components->hero_section([
+				'type' => 'main',
+				'background' => drakkar_get_option('hero_background_image'),
+				'title' => get_bloginfo('name'),
+				'subtitle' => get_bloginfo('description'),
+				'alignment' => 'center'
+			]);
 		}
 	}
+}
 
-	// Define logo filenames to check
-	$logo_files = array('logo-drakkar-full.svg', 'logo-drakkar-full.png');
+// Display contact form
+function drakkar_contact_form($args = [])
+{
+	$components = drakkar_theme()->get_components();
+	return $components ? $components->contact_form($args) : '';
+}
 
-	// Try theme assets first
-	foreach ($logo_files as $filename) {
-		if (drakkar_theme_image_exists($filename)) {
-			return sprintf('<img src="%s" class="%s" alt="%s" />',
-				esc_url(drakkar_get_image_url($filename)), $logo_class, $alt_text);
-		}
-	}
-
-	// Fallback to wp-content/logos directory (legacy)
-	foreach ($logo_files as $filename) {
-		$logo_path = ABSPATH . 'wp-content/logos/' . $filename;
-		if (file_exists($logo_path)) {
-			return sprintf('<img src="%s" class="%s" alt="%s" />',
-				esc_url(home_url('/wp-content/logos/' . $filename)), $logo_class, $alt_text);
-		}
-	}
-
-	return false;
+// Display content card
+function drakkar_content_card($args = [])
+{
+	$components = drakkar_theme()->get_components();
+	return $components ? $components->content_card($args) : '';
 }
 
 /**
- * Custom Walker for Navigation Menu
+ * AJAX handlers for components
  */
-class Drakkar_Walker_Nav_Menu extends Walker_Nav_Menu
-{
+add_action('wp_ajax_drakkar_contact_form', 'drakkar_handle_contact_form');
+add_action('wp_ajax_nopriv_drakkar_contact_form', 'drakkar_handle_contact_form');
 
-	function start_lvl(&$output, $depth = 0, $args = null)
-	{
-		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent<ul class=\"sub-menu\">\n";
+function drakkar_handle_contact_form()
+{
+	// Verify nonce
+	if (!wp_verify_nonce($_POST['contact_nonce'] ?? '', 'drakkar_contact_form')) {
+		wp_die(__('Security check failed', 'drakkar'));
 	}
 
-	function end_lvl(&$output, $depth = 0, $args = null)
-	{
-		$indent = str_repeat("\t", $depth);
-		$output .= "$indent</ul>\n";
+	// Sanitize form data
+	$name = sanitize_text_field($_POST['name'] ?? '');
+	$email = sanitize_email($_POST['email'] ?? '');
+	$subject = sanitize_text_field($_POST['subject'] ?? '');
+	$message = sanitize_textarea_field($_POST['message'] ?? '');
+
+	// Validate required fields
+	if (empty($name) || empty($email) || empty($message)) {
+		wp_send_json_error(__('Please fill out all required fields.', 'drakkar'));
 	}
 
-	function start_el(&$output, $item, $depth = 0, $args = null, $id = 0)
-	{
-		$indent = ($depth) ? str_repeat("\t", $depth) : '';
-
-		$classes = empty($item->classes) ? array() : (array) $item->classes;
-		$classes[] = 'menu-item-' . $item->ID;
-
-		$class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
-		$class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
-
-		$id = apply_filters('nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args);
-		$id = $id ? ' id="' . esc_attr($id) . '"' : '';
-
-		$output .= $indent . '<li' . $id . $class_names . '>';
-
-		$attributes = ! empty($item->attr_title) ? ' title="'  . esc_attr($item->attr_title) . '"' : '';
-		$attributes .= ! empty($item->target)     ? ' target="' . esc_attr($item->target) . '"' : '';
-		$attributes .= ! empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn) . '"' : '';
-		$attributes .= ! empty($item->url)        ? ' href="'   . esc_attr($item->url) . '"' : '';
-
-		$item_output = isset($args->before) ? $args->before : '';
-		$item_output .= '<a' . $attributes . '>';
-		$item_output .= (isset($args->link_before) ? $args->link_before : '') . apply_filters('the_title', $item->title, $item->ID) . (isset($args->link_after) ? $args->link_after : '');
-		$item_output .= '</a>';
-		$item_output .= isset($args->after) ? $args->after : '';
-
-		$output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+	if (!is_email($email)) {
+		wp_send_json_error(__('Please enter a valid email address.', 'drakkar'));
 	}
 
-	function end_el(&$output, $item, $depth = 0, $args = null)
-	{
-		$output .= "</li>\n";
+	// Send email
+	$to = drakkar_get_option('contact_email', get_option('admin_email'));
+	$email_subject = $subject ?: sprintf(__('Contact form submission from %s', 'drakkar'), $name);
+
+	$email_message = sprintf(
+		__("Name: %s\nEmail: %s\nSubject: %s\n\nMessage:\n%s", 'drakkar'),
+		$name,
+		$email,
+		$subject,
+		$message
+	);
+
+	$headers = ['Content-Type: text/plain; charset=UTF-8', 'From: ' . $name . ' <' . $email . '>'];
+
+	if (wp_mail($to, $email_subject, $email_message, $headers)) {
+		wp_send_json_success(__('Thank you for your message!', 'drakkar'));
+	} else {
+		wp_send_json_error(__('Sorry, there was an error sending your message. Please try again.', 'drakkar'));
 	}
-}
-
-/**
- * Customize the excerpt length
- */
-function drakkar_excerpt_length($length)
-{
-	return 20;
-}
-add_filter('excerpt_length', 'drakkar_excerpt_length');
-
-/**
- * Add viewport meta tag for responsive design
- */
-function drakkar_viewport_meta()
-{
-	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-}
-add_action('wp_head', 'drakkar_viewport_meta');
-
-/**
- * Fallback menu when no menu is assigned
- */
-function drakkar_fallback_menu()
-{
-	echo '<ul id="primary-menu" class="menu">';
-	echo '<li><a href="#lavoura-online">Lavoura Online</a></li>';
-	echo '<li><a href="#agricultura-precisao">Agricultura de Precisão</a></li>';
-	echo '<li><a href="#historias-sucesso">Histórias de Sucesso</a></li>';
-	echo '<li><a href="#a-drakkar">A Drakkar</a></li>';
-	echo '<li><a href="#newsletter">Newsletter</a></li>';
-	echo '</ul>';
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Drakkar Asset Manager
  *
@@ -13,7 +14,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Drakkar_Assets {
+class Drakkar_Assets
+{
 
     /**
      * Theme version for cache busting
@@ -23,7 +25,8 @@ class Drakkar_Assets {
     /**
      * Initialize asset management
      */
-    public static function init() {
+    public static function init()
+    {
         add_action('wp_enqueue_scripts', [self::class, 'enqueue_styles']);
         add_action('wp_enqueue_scripts', [self::class, 'enqueue_scripts']);
         add_action('wp_head', [self::class, 'preload_critical_resources'], 1);
@@ -32,7 +35,8 @@ class Drakkar_Assets {
     /**
      * Enqueue stylesheets
      */
-    public static function enqueue_styles() {
+    public static function enqueue_styles()
+    {
         // Main consolidated stylesheet
         wp_enqueue_style(
             'drakkar-main',
@@ -48,13 +52,14 @@ class Drakkar_Assets {
     /**
      * Enqueue JavaScript files
      */
-    public static function enqueue_scripts() {
-        // Main consolidated JavaScript
+    public static function enqueue_scripts()
+    {
+        // Main unified JavaScript (all functionality consolidated)
         wp_enqueue_script(
             'drakkar-main',
-            self::get_asset_url('js/main.js'),
+            self::get_asset_url('dist/main.js'),
             [],
-            self::get_asset_version('js/main.js'),
+            self::get_asset_version('dist/main.js'),
             true // Load in footer
         );
 
@@ -69,7 +74,8 @@ class Drakkar_Assets {
     /**
      * Get asset URL with proper template directory
      */
-    private static function get_asset_url($path) {
+    private static function get_asset_url($path)
+    {
         return get_template_directory_uri() . '/' . ltrim($path, '/');
     }
 
@@ -77,7 +83,8 @@ class Drakkar_Assets {
      * Get asset version for cache busting
      * Uses file modification time for development, static version for production
      */
-    private static function get_asset_version($path) {
+    private static function get_asset_version($path)
+    {
         if (defined('WP_DEBUG') && WP_DEBUG) {
             // In development, use file modification time
             $file_path = get_template_directory() . '/' . ltrim($path, '/');
@@ -91,12 +98,13 @@ class Drakkar_Assets {
     /**
      * Preload critical resources for performance
      */
-    public static function preload_critical_resources() {
+    public static function preload_critical_resources()
+    {
         // Preload main CSS
         echo '<link rel="preload" href="' . esc_url(self::get_asset_url('dist/main.css')) . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">' . "\n";
 
         // Preload main JavaScript
-        echo '<link rel="preload" href="' . esc_url(self::get_asset_url('js/main.js')) . '" as="script">' . "\n";
+        echo '<link rel="preload" href="' . esc_url(self::get_asset_url('dist/main.js')) . '" as="script">' . "\n";
 
         // Preload logo if custom logo is set
         if (has_custom_logo()) {
@@ -111,7 +119,8 @@ class Drakkar_Assets {
     /**
      * Preload Google Fonts if needed
      */
-    private static function preload_google_fonts() {
+    private static function preload_google_fonts()
+    {
         // If theme uses Google Fonts, add preconnect for performance
         // Currently using system fonts, but keeping for future use
 
@@ -123,7 +132,8 @@ class Drakkar_Assets {
     /**
      * Get inline script data for JavaScript
      */
-    private static function get_inline_script_data() {
+    private static function get_inline_script_data()
+    {
         $data = [
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('drakkar_nonce'),
@@ -137,35 +147,33 @@ class Drakkar_Assets {
 
     /**
      * Conditional asset loading based on page context
+     *
+     * Note: With unified JavaScript architecture, most functionality is
+     * already included in dist/main.js. This method is kept for potential
+     * future page-specific scripts that don't belong in the main bundle.
      */
-    public static function conditional_enqueue($hook) {
-        // Example: Load specific scripts only on certain pages
-        if (is_front_page()) {
-            wp_enqueue_script(
-                'drakkar-hero-animations',
-                self::get_asset_url('js/components/hero-animations.js'),
-                ['drakkar-main'],
-                self::get_asset_version('js/components/hero-animations.js'),
-                true
-            );
-        }
+    public static function conditional_enqueue($hook)
+    {
+        // All core functionality is now in unified dist/main.js
+        // This method can be used for page-specific scripts if needed in the future
 
-        // Example: Load contact form scripts only on contact pages
-        if (is_page('contact') || is_page('contato')) {
-            wp_enqueue_script(
-                'drakkar-contact-form',
-                self::get_asset_url('js/components/contact-form.js'),
-                ['drakkar-main'],
-                self::get_asset_version('js/components/contact-form.js'),
-                true
-            );
-        }
+        // Example for future use:
+        // if (is_page('special-page')) {
+        //     wp_enqueue_script(
+        //         'drakkar-special-feature',
+        //         self::get_asset_url('js/special-feature.js'),
+        //         ['drakkar-main'],
+        //         self::get_asset_version('js/special-feature.js'),
+        //         true
+        //     );
+        // }
     }
 
     /**
      * Inline critical CSS for above-the-fold content
      */
-    public static function inline_critical_css() {
+    public static function inline_critical_css()
+    {
         $critical_css = self::get_critical_css();
         if ($critical_css) {
             echo '<style id="critical-css">' . $critical_css . '</style>' . "\n";
@@ -175,7 +183,8 @@ class Drakkar_Assets {
     /**
      * Get critical CSS for above-the-fold content
      */
-    private static function get_critical_css() {
+    private static function get_critical_css()
+    {
         // Essential above-the-fold styles
         return '
             :root {
@@ -225,7 +234,8 @@ class Drakkar_Assets {
     /**
      * Remove WordPress default styles/scripts that are not needed
      */
-    public static function cleanup_wp_head() {
+    public static function cleanup_wp_head()
+    {
         // Remove WordPress generator meta tag
         remove_action('wp_head', 'wp_generator');
 
@@ -239,7 +249,7 @@ class Drakkar_Assets {
         remove_action('wp_head', 'wp_shortlink_wp_head');
 
         // Remove recent comments styles
-        add_action('widgets_init', function() {
+        add_action('widgets_init', function () {
             global $wp_widget_factory;
             remove_action('wp_head', [$wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style']);
         });
@@ -254,7 +264,8 @@ class Drakkar_Assets {
     /**
      * Add resource hints for performance
      */
-    public static function add_resource_hints($urls, $relation_type) {
+    public static function add_resource_hints($urls, $relation_type)
+    {
         switch ($relation_type) {
             case 'dns-prefetch':
                 // Add domains for DNS prefetch

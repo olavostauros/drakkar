@@ -24,9 +24,10 @@ drakkar/
 ├── footer.php          # Site footer
 ├── index.php           # Default template
 ├── assets/             # Static assets (images, icons, videos)
-├── js/                 # JavaScript files
-├── dist/               # Unified CSS file
-│   └── main.css       # Single, consolidated stylesheet
+├── js/                 # JavaScript files (legacy - backup only)
+├── dist/               # Unified CSS and JavaScript files
+│   ├── main.css       # Single, consolidated stylesheet
+│   └── main.js        # Single, consolidated JavaScript file
 ├── inc/                # PHP includes
 │   ├── new/           # Refactored class-based architecture
 │   ├── media-helpers.php
@@ -38,11 +39,12 @@ drakkar/
 
 ## Core Features
 
-### 1. Unified CSS Architecture
+### 1. Unified CSS & JavaScript Architecture
 
 - **Single Stylesheet:** All styles consolidated in `dist/main.css`
+- **Single JavaScript File:** All scripts consolidated in `dist/main.js`
 - **CSS Custom Properties:** Complete design system with variables
-- **Performance Optimized:** One HTTP request for all styles
+- **Performance Optimized:** One HTTP request each for styles and scripts
 - **Component-based:** Modular organization with clear sections
 - **Design System:** Consistent colors, typography, spacing, and shadows
 
@@ -71,7 +73,26 @@ The unified `dist/main.css` includes:
    - Reduced motion, high contrast support
 ```
 
-### 3. Image Handling
+### 3. JavaScript Structure
+
+The unified `dist/main.js` includes:
+
+```text
+1. Utility Functions
+   - DOM selectors, throttle/debounce, viewport detection
+2. Core Theme Functionality
+   - Smooth scrolling, header effects, mobile menu
+3. Component Systems
+   - Statistics animations, lazy loading, video optimization
+4. Hero-specific Features
+   - Hero animations and interactions
+5. Performance Optimizations
+   - Intersection Observer, passive events, preloading
+6. Accessibility Features
+   - Skip links, focus management, keyboard navigation
+```
+
+### 4. Image Handling
 
 **Custom Image Sizes:**
 
@@ -88,7 +109,7 @@ drakkar_get_featured_image($id, $size)      # WordPress media
 drakkar_get_responsive_image($id, $size)    # Responsive images
 ```
 
-### 4. Theme Support
+### 5. Theme Support
 
 - Custom logo (300×100px, flexible)
 - Post thumbnails
@@ -181,6 +202,7 @@ Modular hero sections:
 ### Key Files
 
 - **Main stylesheet:** `dist/main.css` (UNIFIED - contains ALL styles)
+- **Main JavaScript:** `dist/main.js` (UNIFIED - contains ALL scripts)
 - **Theme functions:** `functions.php`
 - **Asset classes:** `inc/new/class-drakkar-assets.php`
 - **Component classes:** `inc/new/class-drakkar-components.php`
@@ -197,9 +219,10 @@ Modular hero sections:
 ### Version 2.0 Changes
 
 - **UNIFIED CSS:** All styles consolidated into single `dist/main.css` file
+- **UNIFIED JAVASCRIPT:** All scripts consolidated into single `dist/main.js` file
 - **CSS Custom Properties:** Complete design system implementation
-- **Performance:** Single HTTP request for all styles
-- **Component-based architecture:** Clear style organization
+- **Performance:** Single HTTP request each for styles and scripts
+- **Component-based architecture:** Clear style and script organization
 - **Enhanced media handling system**
 - **Improved accessibility and responsive design**
 
@@ -220,15 +243,24 @@ Modular hero sections:
 4. **Test responsiveness** across all breakpoints
 5. **Ensure accessibility compliance**
 
+### Adding New JavaScript
+
+1. **Add functionality to the unified `dist/main.js`** file
+2. **Follow the existing structure** (utilities, components, features)
+3. **Use the DrakkarUtils and DrakkarTheme** namespaces
+4. **Ensure performance** with throttling/debouncing where needed
+5. **Test across all browsers and devices**
+
 ## Performance Benefits
 
-### Unified CSS Approach
+### Unified CSS & JavaScript Approach
 
-- **Single HTTP Request:** All styles in one file
-- **Reduced Latency:** No multiple CSS file downloads
-- **Better Caching:** One file to cache
-- **Smaller Total Size:** No duplicate styles
-- **Faster Rendering:** Browser processes styles once
+- **Single HTTP Requests:** All styles in one file, all scripts in one file
+- **Reduced Latency:** No multiple file downloads
+- **Better Caching:** Fewer files to cache and manage
+- **Smaller Total Size:** No duplicate code between files
+- **Faster Rendering:** Browser processes resources once
+- **Improved Mobile Performance:** Critical for slower connections
 
 ### Design System Benefits
 
@@ -239,4 +271,4 @@ Modular hero sections:
 
 ## Support
 
-For theme-specific issues, refer to the component documentation in `inc/new/` classes and the media guide in `assets/MEDIA-GUIDE.md`. All styles are now consolidated in `dist/main.css` for easier maintenance and better performance.
+For theme-specific issues, refer to the component documentation in `inc/new/` classes and the media guide in `assets/MEDIA-GUIDE.md`. All styles are now consolidated in `dist/main.css` and all JavaScript in `dist/main.js` for easier maintenance and better performance.

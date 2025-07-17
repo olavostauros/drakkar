@@ -1,6 +1,7 @@
 # Drakkar Theme Documentation
 
 ## Overview
+
 Custom WordPress theme for **Drakkar Agricultura de Precisão** - Brazilian precision agriculture technology company.
 
 **Version:** 2.0
@@ -10,14 +11,14 @@ Custom WordPress theme for **Drakkar Agricultura de Precisão** - Brazilian prec
 ## Quick Start
 
 ### Development Setup
+
 1. Ensure WordPress dev server is running: `php -S localhost:8000 -t wordpress`
-2. All styles are unified in `dist/main.css` for optimal performance
-3. CSS custom properties provide consistent design system
+2. Theme uses unified CSS/JS architecture for optimal performance
 
 ### Theme Structure
-```
+
+```text
 drakkar/
-├── style.css           # WordPress theme header only
 ├── functions.php       # Core theme functions
 ├── front-page.php      # Homepage template
 ├── header.php          # Site header
@@ -39,14 +40,12 @@ drakkar/
 
 ## Core Features
 
-### 1. Unified CSS & JavaScript Architecture
+### 1. Architecture
 
-- **Single Stylesheet:** All styles consolidated in `dist/main.css`
-- **Single JavaScript File:** All scripts consolidated in `dist/main.js`
+- **Single Stylesheet:** `dist/main.css`
+- **Single JavaScript File:** `dist/main.js`
 - **CSS Custom Properties:** Complete design system with variables
-- **Performance Optimized:** One HTTP request each for styles and scripts
 - **Component-based:** Modular organization with clear sections
-- **Design System:** Consistent colors, typography, spacing, and shadows
 
 ### 2. CSS Structure
 
@@ -138,15 +137,7 @@ Modular hero sections:
 
 ## Development Guidelines
 
-### CSS Best Practices
-
-- **Use CSS Custom Properties:** All colors, sizes, and spacing use design system variables
-- **Single Source of Truth:** All styles in `dist/main.css`
-- **Component Organization:** Styles grouped by component type
-- **Responsive Design:** Mobile-first approach with CSS custom properties
-- **Performance:** Avoid inline styles, minimize HTTP requests
-
-### Example CSS Custom Properties Usage
+### CSS Custom Properties Usage
 
 ```css
 .my-component {
@@ -197,59 +188,21 @@ Modular hero sections:
 - Predefined shadows: `--shadow-sm` to `--shadow-xl`
 - Transition speeds: `--transition-fast`, `--transition-base`, `--transition-slow`
 
-## File Locations
-
-### Key Files
-
-- **Main stylesheet:** `dist/main.css` (UNIFIED - contains ALL styles)
-- **Main JavaScript:** `dist/main.js` (UNIFIED - contains ALL scripts)
-- **Theme functions:** `functions.php`
-- **Asset classes:** `inc/new/class-drakkar-assets.php`
-- **Component classes:** `inc/new/class-drakkar-components.php`
-- **Media helpers:** `inc/media-helpers.php`
-
-### Templates
-
-- **Homepage:** `front-page.php`
-- **Default:** `index.php`
-- **Components:** `template-parts/`
-
 ## Maintenance
 
 ### Version 2.0 Changes
 
-- **UNIFIED CSS:** All styles consolidated into single `dist/main.css` file
-- **UNIFIED JAVASCRIPT:** All scripts consolidated into single `dist/main.js` file
+- **UNIFIED CSS/JavaScript:** All styles and scripts consolidated into single files
 - **CSS Custom Properties:** Complete design system implementation
-- **Performance:** Single HTTP request each for styles and scripts
-- **Component-based architecture:** Clear style and script organization
 - **Enhanced media handling system**
 - **Improved accessibility and responsive design**
 
 ### Best Practices
 
 - Test changes with WordPress 5.0+ and PHP 7.4+
-- Maintain responsive design principles
-- Use semantic HTML5 markup
+- Use CSS custom properties for consistency
 - Follow WordPress accessibility guidelines
 - Optimize images and assets for performance
-- Always use CSS custom properties for consistency
-
-### Adding New Styles
-
-1. **Use existing CSS custom properties** when possible
-2. **Add new properties to the design system** if needed
-3. **Follow the component structure** in `dist/main.css`
-4. **Test responsiveness** across all breakpoints
-5. **Ensure accessibility compliance**
-
-### Adding New JavaScript
-
-1. **Add functionality to the unified `dist/main.js`** file
-2. **Follow the existing structure** (utilities, components, features)
-3. **Use the DrakkarUtils and DrakkarTheme** namespaces
-4. **Ensure performance** with throttling/debouncing where needed
-5. **Test across all browsers and devices**
 
 ## Performance Benefits
 
@@ -271,4 +224,8 @@ Modular hero sections:
 
 ## Support
 
-For theme-specific issues, refer to the component documentation in `inc/new/` classes and the media guide in `assets/MEDIA-GUIDE.md`. All styles are now consolidated in `dist/main.css` and all JavaScript in `dist/main.js` for easier maintenance and better performance.
+For theme-specific issues, refer to:
+
+- Component documentation in `inc/new/` classes
+- Media guide in `assets/MEDIA-GUIDE.md`
+- Unified styles in `dist/main.css` and scripts in `dist/main.js`

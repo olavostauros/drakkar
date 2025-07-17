@@ -49,7 +49,6 @@ function drakkar_theme_setup()
 
 	// Add custom image sizes
 	add_image_size('drakkar-thumbnail', 150, 150, true);
-	add_image_size('drakkar-small', 300, 200, true);
 	add_image_size('drakkar-medium', 600, 400, true);
 	add_image_size('drakkar-large', 1200, 800, true);
 	add_image_size('drakkar-hero', 1920, 1080, true);
@@ -64,39 +63,13 @@ function drakkar_theme_setup()
 }
 add_action('after_setup_theme', 'drakkar_theme_setup');
 
-/**
- * Enqueue scripts and styles - REFACTORED v2.0
- * Now handled by Drakkar_Assets class for better performance and organization
- */
-function drakkar_scripts()
-{
-	// Legacy asset loading - commented out in v2.0
-	// New asset management is handled by Drakkar_Assets class
 
-	/* OLD CODE:
-	$theme_version = wp_get_theme()->get('Version') ?: '1.0.0';
-	$template_uri = get_template_directory_uri();
-
-	// Enqueue theme stylesheet
-	wp_enqueue_style('drakkar-style', get_stylesheet_uri(), array(), $theme_version);
-
-	// Enqueue additional CSS files
-	wp_enqueue_style('drakkar-hero-main-css', $template_uri . '/css/hero-zero.css', array('drakkar-style'), $theme_version);
-
-	// Enqueue theme JavaScript
-	wp_enqueue_script('drakkar-script', $template_uri . '/js/main.js', array(), $theme_version, true);
-	wp_enqueue_script('drakkar-hero-script', $template_uri . '/js/hero-main.js', array('drakkar-script'), $theme_version, true);
-	*/
-
-	// Asset management is now handled by Drakkar_Assets::init() in class-drakkar-assets.php
-}
-// Keeping the hook for backward compatibility, but assets are managed by the new class
-add_action('wp_enqueue_scripts', 'drakkar_scripts');
 
 /**
  * Configure image quality
  */
-function drakkar_image_quality() {
+function drakkar_image_quality()
+{
 	return drakkar_get_media_setting('image_quality', 85);
 }
 add_filter('wp_editor_set_quality', 'drakkar_image_quality');
@@ -105,10 +78,10 @@ add_filter('jpeg_quality', 'drakkar_image_quality');
 /**
  * Add custom image sizes to media library
  */
-function drakkar_custom_image_sizes($sizes) {
+function drakkar_custom_image_sizes($sizes)
+{
 	return array_merge($sizes, array(
 		'drakkar-thumbnail' => __('Drakkar Thumbnail', 'drakkar'),
-		'drakkar-small' => __('Drakkar Small', 'drakkar'),
 		'drakkar-medium' => __('Drakkar Medium', 'drakkar'),
 		'drakkar-large' => __('Drakkar Large', 'drakkar'),
 		'drakkar-hero' => __('Drakkar Hero', 'drakkar'),
@@ -129,8 +102,12 @@ function drakkar_get_logo()
 		$logo = wp_get_attachment_image_src($custom_logo_id, 'full');
 
 		if ($logo) {
-			return sprintf('<img src="%s" alt="%s" class="%s" />',
-				esc_url($logo[0]), $alt_text, $logo_class);
+			return sprintf(
+				'<img src="%s" alt="%s" class="%s" />',
+				esc_url($logo[0]),
+				$alt_text,
+				$logo_class
+			);
 		}
 	}
 
@@ -140,8 +117,12 @@ function drakkar_get_logo()
 	// Try theme assets first
 	foreach ($logo_files as $filename) {
 		if (drakkar_theme_image_exists($filename)) {
-			return sprintf('<img src="%s" class="%s" alt="%s" />',
-				esc_url(drakkar_get_image_url($filename)), $logo_class, $alt_text);
+			return sprintf(
+				'<img src="%s" class="%s" alt="%s" />',
+				esc_url(drakkar_get_image_url($filename)),
+				$logo_class,
+				$alt_text
+			);
 		}
 	}
 
@@ -149,8 +130,12 @@ function drakkar_get_logo()
 	foreach ($logo_files as $filename) {
 		$logo_path = ABSPATH . 'wp-content/logos/' . $filename;
 		if (file_exists($logo_path)) {
-			return sprintf('<img src="%s" class="%s" alt="%s" />',
-				esc_url(home_url('/wp-content/logos/' . $filename)), $logo_class, $alt_text);
+			return sprintf(
+				'<img src="%s" class="%s" alt="%s" />',
+				esc_url(home_url('/wp-content/logos/' . $filename)),
+				$logo_class,
+				$alt_text
+			);
 		}
 	}
 
@@ -219,14 +204,7 @@ function drakkar_excerpt_length($length)
 }
 add_filter('excerpt_length', 'drakkar_excerpt_length');
 
-/**
- * Add viewport meta tag for responsive design
- */
-function drakkar_viewport_meta()
-{
-	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-}
-add_action('wp_head', 'drakkar_viewport_meta');
+
 
 /**
  * Fallback menu when no menu is assigned
